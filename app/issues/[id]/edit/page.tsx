@@ -1,7 +1,6 @@
-import React from 'react'
-import dynamic from 'next/dynamic'
-import prisma from '@/prisma/client'
-import { notFound } from 'next/navigation'
+import prisma from '@/prisma/client';
+import dynamic from 'next/dynamic';
+import { notFound } from 'next/navigation';
 import IssueFormSkelton from './loading';
 
 

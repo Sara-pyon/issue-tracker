@@ -3,8 +3,9 @@ import './theme.config.css';
 import type { Metadata } from "next";
 import { Inter, Poppins } from "next/font/google";
 import "./globals.css";
-import { Theme } from '@radix-ui/themes';
+import { Container, Theme } from '@radix-ui/themes';
 import NavBar from "./components/NavBar";
+
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -30,7 +31,7 @@ export default function RootLayout({
         <Theme accentColor="violet" radius="large">
           <NavBar />
           <main className='p-5'>
-            {children}
+            <Container>{children}</Container>
           </main>
         </Theme>
       </body>
