@@ -1,6 +1,6 @@
 "use client"
 
-import { Button, Callout, TextField, Text, Spinner } from '@radix-ui/themes'
+import { Button, TextField, Spinner } from '@radix-ui/themes'
 import React, { useState } from 'react'
 import SimpleMDE from "react-simplemde-editor";
 import "easymde/dist/easymde.min.css";
@@ -14,29 +14,29 @@ import ErrorMessage from '@/app/components/ErrorMessage';
 
 type IssueForm = z.infer<typeof createIssueSchema>;
 
-
 const NewIssuePage = () => {
+  const router = useRouter();
   const { register, control, handleSubmit, formState: { errors, isValid }} = useForm<IssueForm>({
     resolver: zodResolver(createIssueSchema)
   });
   const [isSubmitting, setSubmitting] = useState(false);
-  const router = useRouter();
+
+  const onSubmit = handleSubmit(async(data) => {
+    try{
+      setSubmitting(true);
+      await axios.post('/api/issues', data);
+      router.push('/issues');
+    }catch(error){
+      setSubmitting(false);
+      console.log(error);
+    }
+  });
 
   return (
     <div className='max-w-xl'>
       <form 
         className='space-y-3'
-        onSubmit={handleSubmit(async(data) => {
-          try{
-            setSubmitting(true);
-            await axios.post('/api/issues', data)
-                      .then(() => setSubmitting(false));
-            router.push('/issues');
-          }catch(error){
-            setSubmitting(false);
-            console.log(error);
-          }
-        })}>
+        onSubmit={onSubmit}>
           <TextField.Root placeholder='title' {...register('title')} />
           <ErrorMessage>
             {errors.title?.message}
