@@ -1,6 +1,6 @@
+import { Skeleton } from '@/app/components'
 import { Card, Flex, Heading } from '@radix-ui/themes'
-import Skeleton from 'react-loading-skeleton'
-import 'react-loading-skeleton/dist/skeleton.css'
+
 
 const IssueDetailLoadingPage = () => {
   return (
