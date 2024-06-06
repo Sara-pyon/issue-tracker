@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { IoBug } from "react-icons/io5";
 import { useSession } from "next-auth/react";
-import { Box, Container, Flex } from "@radix-ui/themes";
+import { Avatar, Box, Container, DropdownMenu, Flex } from "@radix-ui/themes";
 
 const NavBar = () => {
   const links = [
@@ -42,10 +42,19 @@ const NavBar = () => {
           </Flex>
           <Box>
             {status === "authenticated" && (
-              <div className="flex gap-4">
-                <p>{data.user?.name}</p>
-                <Link href="/api/auth/signout" className="hidden sm:block">Log out</Link>
-              </div>
+              <DropdownMenu.Root>
+                <DropdownMenu.Trigger>
+                  <Avatar src={data.user?.image!} fallback='?' radius="full" className="cursor-pointer"/>
+                </DropdownMenu.Trigger>
+                <DropdownMenu.Content>
+                  <DropdownMenu.Label>{data.user?.email}</DropdownMenu.Label>
+                  <Link href='/api/auth/signout'>
+                    <DropdownMenu.Item>
+                      Log out
+                    </DropdownMenu.Item>
+                  </Link>
+                </DropdownMenu.Content>
+              </DropdownMenu.Root>
             )}
             {status === "unauthenticated" && (
               <Link href="/api/auth/signin">Log in</Link>
