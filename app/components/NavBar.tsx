@@ -8,7 +8,7 @@ import { IoBug } from "react-icons/io5";
 const NavBar = () => {
   const links = [
     { label: "Dashboard", herf: "/" },
-    { label: "Issues", herf: "/issues" },
+    { label: "Issues", herf: "/issues/list" },
   ];
 
   const currentPath = usePathname();
