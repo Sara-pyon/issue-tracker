@@ -6,6 +6,8 @@ import { usePathname } from "next/navigation";
 import { IoBug } from "react-icons/io5";
 import { useSession } from "next-auth/react";
 import { Avatar, Box, Container, DropdownMenu, Flex } from "@radix-ui/themes";
+import Skeleton from "./Skelton";
+
 
 const NavBar = () => {
 
@@ -54,6 +56,8 @@ const NavLinks = () => {
 
 const AuthStatus = () => {
   const { status, data } = useSession();
+
+  if(status === "loading") return <Skeleton width="2rem" height="2rem" />
 
   return(
     <Box>
