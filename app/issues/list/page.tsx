@@ -1,19 +1,22 @@
-import { IssueStatusBadge, Link } from "@/app/components";
+import { IssueStatusBadge } from "@/app/components";
 import prisma from "@/prisma/client";
-import { Status } from "@prisma/client";
+import { Issue, Status } from "@prisma/client";
 import { Flex, Table } from "@radix-ui/themes";
 import IssueStatusFilter from "../_components/IssueStatusFilter";
 import IssueAction from "../new/IssueAction";
+import Link from "next/link";
+import { FaArrowUpLong, FaArrowDownLong } from "react-icons/fa6";
 
-const IssuePage = async ({
-  searchParams,
-}: {
-  searchParams: { status: Status };
-}) => {
+const IssuePage = async ({ searchParams }: { searchParams: { status: Status, order?: "desc" | "asc", orderBy: keyof Issue } }) => {
+  const colums: {label: string, value: keyof Issue, className?: string}[] = [
+    {label: "Issue", value: "title"},
+    {label: "Status", value: "status", className: "hidden md:table-cell"},
+    {label: "Created", value: "createdAt", className: "hidden md:table-cell"},
+  ];
+
   const statuses = Object.values(Status);
   const status = statuses.includes(searchParams.status)
-    ? searchParams.status
-    : undefined;
+    ? searchParams.status : undefined ;
 
   const issues = await prisma.issue.findMany({
     where: { status },
@@ -28,13 +31,21 @@ const IssuePage = async ({
       <Table.Root variant="surface">
         <Table.Header>
           <Table.Row>
-            <Table.ColumnHeaderCell>Issue</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell className="hidden md:table-cell">
-              Status
-            </Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell className="hidden md:table-cell">
-              Created
-            </Table.ColumnHeaderCell>
+            {colums.map(col => (
+              <Table.ColumnHeaderCell key={col.label} className={col.className}>
+                <Flex align="center" gap="2">
+                  <Link href={{
+                    query: {
+                      ...searchParams, 
+                      order: searchParams.order === "asc" ? "desc" : "asc",
+                      orderBy: col.value
+                    }
+                  }}>{col.label}</Link>
+                  {(col.value === searchParams.orderBy) ? (searchParams.order === "asc") ? 
+                        <FaArrowUpLong /> : <FaArrowDownLong /> : undefined}
+                </Flex>
+              </Table.ColumnHeaderCell>
+            ))}
           </Table.Row>
         </Table.Header>
         <Table.Body>
