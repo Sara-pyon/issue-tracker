@@ -14,12 +14,17 @@ const IssuePage = async ({ searchParams }: { searchParams: { status: Status, ord
     {label: "Created", value: "createdAt", className: "hidden md:table-cell"},
   ];
 
+  const  { status, order, orderBy } = searchParams
+
   const statuses = Object.values(Status);
-  const status = statuses.includes(searchParams.status)
-    ? searchParams.status : undefined ;
+  const validateStatus = statuses.includes(status)
+    ? status : undefined ;
+  const validateOrder = (order === "desc" || order === 'asc') ? order : undefined;
+  const validateOrderBy = colums.map(col => col.value).includes(orderBy) ? orderBy : undefined;
 
   const issues = await prisma.issue.findMany({
-    where: { status },
+    where: { status : validateStatus },
+    orderBy: validateOrderBy ? { [validateOrderBy] : validateOrder} : undefined
   });
 
   return (
@@ -37,11 +42,11 @@ const IssuePage = async ({ searchParams }: { searchParams: { status: Status, ord
                   <Link href={{
                     query: {
                       ...searchParams, 
-                      order: searchParams.order === "asc" ? "desc" : "asc",
+                      order: validateOrder === "asc" ? "desc" : "asc",
                       orderBy: col.value
                     }
                   }}>{col.label}</Link>
-                  {(col.value === searchParams.orderBy) ? (searchParams.order === "asc") ? 
+                  {(col.value === validateOrderBy) ? (validateOrder === "asc") ? 
                         <FaArrowUpLong /> : <FaArrowDownLong /> : undefined}
                 </Flex>
               </Table.ColumnHeaderCell>
