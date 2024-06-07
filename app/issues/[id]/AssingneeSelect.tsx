@@ -8,21 +8,12 @@ import Skelton from "../../components/Skelton";
 import toast, { Toaster } from 'react-hot-toast';
 
 const AssingneeSelect = ({issue}: {issue: Issue}) => {
-  const { data: users, error, isLoading } = useQuery<User[]>({
-      queryKey: ["users"],
-      queryFn: () => axios.get("/api/users").then((res) => res.data),
-      retry: 3,
-    });
+  const { data: users, error, isLoading } = useUser();
 
   const assignedUser = (userId: string) => {
-    try{
       axios.patch(`/api/issues/${issue.id}`, {
         assignedToUserId: (userId === "unassigned" ? null : userId) || null
       }).catch(() => toast.error("Changes could not be saved."))
-    }catch{
-      console.log(error);
-      
-    }
   }
 
   if (isLoading) return <Skelton height="2rem" />;
@@ -32,7 +23,7 @@ const AssingneeSelect = ({issue}: {issue: Issue}) => {
   return (
     <Select.Root 
       defaultValue={issue.assignedToUserId || ""}
-      onValueChange={(userId) => assignedUser(userId)} >
+      onValueChange={assignedUser} >
       <Select.Trigger placeholder="Assign ..." />
       <Select.Content>
         <Select.Group>
@@ -51,5 +42,12 @@ const AssingneeSelect = ({issue}: {issue: Issue}) => {
     </Select.Root>
   );
 };
+
+const useUser = () => useQuery<User[]>({
+  queryKey: ["users"],
+  queryFn: () => axios.get("/api/users").then((res) => res.data),
+  retry: 3,
+});
+
 
 export default AssingneeSelect;
