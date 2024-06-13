@@ -6,26 +6,41 @@ import IssueStatusFilter from "../_components/IssueStatusFilter";
 import IssueAction from "../new/IssueAction";
 import Link from "next/link";
 import { FaArrowUpLong, FaArrowDownLong } from "react-icons/fa6";
+import Pagination from "@/app/components/Pagination";
 
-const IssuePage = async ({ searchParams }: { searchParams: { status: Status, order?: "desc" | "asc", orderBy: keyof Issue } }) => {
+interface Props{
+  searchParams: { 
+    status: Status, 
+    order?: "desc" | "asc", 
+    orderBy: keyof Issue,
+    page: string
+   }
+}
+
+const IssuePage = async ({ searchParams }: Props ) => {
   const colums: {label: string, value: keyof Issue, className?: string}[] = [
     {label: "Issue", value: "title"},
     {label: "Status", value: "status", className: "hidden md:table-cell"},
     {label: "Created", value: "createdAt", className: "hidden md:table-cell"},
   ];
 
-  const  { status, order, orderBy } = searchParams
+  const  { status, order, orderBy, page } = searchParams;
 
   const statuses = Object.values(Status);
-  const validateStatus = statuses.includes(status)
-    ? status : undefined ;
+  const validateStatus = statuses.includes(status) ? status : undefined ;
   const validateOrder = (order === "desc" || order === 'asc') ? order : undefined;
   const validateOrderBy = colums.map(col => col.value).includes(orderBy) ? orderBy : undefined;
 
+  const currentPage = parseInt(page) || 1;
+  const pageSize = 10;
+
   const issues = await prisma.issue.findMany({
     where: { status : validateStatus },
-    orderBy: validateOrderBy ? { [validateOrderBy] : validateOrder} : undefined
+    orderBy: validateOrderBy ? { [validateOrderBy] : validateOrder} : undefined,
+    skip: (currentPage - 1) * pageSize,
+    take: pageSize
   });
+  const countIssue = await prisma.issue.count({ where: { status: validateStatus }});
 
   return (
     <div>
@@ -72,6 +87,7 @@ const IssuePage = async ({ searchParams }: { searchParams: { status: Status, ord
           ))}
         </Table.Body>
       </Table.Root>
+      <Pagination currentPage={currentPage} itemCount={countIssue} pageSize={pageSize}/>
     </div>
   );
 };

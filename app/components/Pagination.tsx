@@ -26,11 +26,7 @@ const Pagination = ({itemCount, pageSize, currentPage}: Props) => {
     }
 
   return (
-    <>
-        <Text>
-            Page { currentPage } of { pageCount }
-        </Text>
-        <Flex gap="2">
+        <Flex gap="2" align="center">
             <Button color='gray' variant='soft' 
                 disabled={currentPage === 1}
                 onClick={() => changePage(1)}>
@@ -41,6 +37,9 @@ const Pagination = ({itemCount, pageSize, currentPage}: Props) => {
                 onClick={() => changePage(currentPage - 1)}>
                 <ChevronLeftIcon />
             </Button>
+            <Text>
+                Page { currentPage } of { pageCount }
+            </Text>
             <Button color='gray' variant='soft'
                 disabled={currentPage === pageCount}
                 onClick={() => changePage(currentPage + 1)}>
@@ -52,7 +51,6 @@ const Pagination = ({itemCount, pageSize, currentPage}: Props) => {
                 <DoubleArrowRightIcon/>
             </Button>
         </Flex>
-    </>
   )
 }
 
