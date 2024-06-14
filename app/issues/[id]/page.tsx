@@ -6,8 +6,8 @@ import IssueDetail from './IssueDetail';
 import DeleteIssueButton from './DeleteIssueButton';
 import { auth } from '@/auth';
 import AssingneeSelect from './AssingneeSelect';
-import { title } from 'process';
 import { cache } from 'react';
+import ChangeIssueStatus from './ChangeIssueStatus';
 
 interface Props{
     params: { id: string }
@@ -35,6 +35,7 @@ const IssueDetailPage = async({params}: Props) => {
       {session && <Box >
         <Flex direction="column" gap="3" width="co">
           <AssingneeSelect issue={issue} />
+          <ChangeIssueStatus issue={issue} />
           <EditIssueButton issueId={issue.id} />
           <DeleteIssueButton issueId={issue.id} />
         </Flex>
