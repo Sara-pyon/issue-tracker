@@ -6,11 +6,11 @@ import React from 'react'
 import { FaArrowDownLong, FaArrowUpLong } from 'react-icons/fa6';
 
 export interface issueQuery{
-    status: Status, 
-    order?: "desc" | "asc", 
-    orderBy: keyof Issue,
-    page: string
-        
+    status: Status;
+    order?: "desc" | "asc";
+    orderBy: keyof Issue;
+    page: string;
+    size: "10"|"20"|"30";
 }
 
 interface Props{

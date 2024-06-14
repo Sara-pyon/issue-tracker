@@ -8,10 +8,7 @@ import { useSession } from "next-auth/react";
 import { Avatar, Box, Container, DropdownMenu, Flex } from "@radix-ui/themes";
 import Skeleton from "./Skelton";
 
-
-
 const NavBar = () => {
-
   return (
     <nav className="px-5 mb-5 border-b">
       <Container>
@@ -32,7 +29,7 @@ const NavBar = () => {
 const NavLinks = () => {
   const links = [
     { label: "Dashboard", herf: "/" },
-    { label: "Issues", herf: "/issues/list" },
+    { label: "Issues", herf: "/issues/list?order=desc&orderBy=createdAt" },
   ];
   const currentPath = usePathname();
 

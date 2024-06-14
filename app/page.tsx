@@ -2,7 +2,7 @@ import prisma from "@/prisma/client";
 import IssueSummary from "./IssueSummary";
 import LatestIssues from "./LatestIssues";
 import IssueChart from "./IssueChart";
-import { Grid, Box, Flex } from "@radix-ui/themes";
+import { Grid, Flex } from "@radix-ui/themes";
 import { Metadata } from "next";
 
 export default async function Home() {
