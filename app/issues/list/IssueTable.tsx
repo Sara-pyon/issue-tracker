@@ -11,6 +11,7 @@ export interface issueQuery{
     orderBy: keyof Issue;
     page: string;
     size: "10"|"20"|"30";
+    assigned: string;
 }
 
 interface Props{

@@ -14,6 +14,7 @@ const IssuePageSize = ({pageSize}: {pageSize: string[]}) => {
         defaultValue={searchParams.get('size') || "10"}
         onValueChange={(size) => {
             const params = new URLSearchParams(searchParams);
+            params.delete('page');
             params.set('size', size);
             router.push('?' + params.toString())
         }}
