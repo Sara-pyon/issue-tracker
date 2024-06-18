@@ -2,13 +2,13 @@ import prisma from "@/prisma/client";
 import IssueSummary from "./IssueSummary";
 import LatestIssues from "./LatestIssues";
 import IssueChart from "./IssueChart";
-import { Grid, Flex, Text } from "@radix-ui/themes";
+import { Grid, Flex } from "@radix-ui/themes";
 import { Metadata } from "next";
-import { useState } from "react";
 
 export default async function Home() {
-  const { open, inProgress, closed } = await fetchData();
- 
+
+  const {open, inProgress, closed} = await fetchData();
+  
   return(
     <Grid columns={{initial: '1', sm: '2' }} gapX="5" gap={{initial: "5", sm: "5"}}>
       <Flex direction="column" gap="5">
@@ -25,7 +25,7 @@ const fetchData = async() => {
   const inProgress = await prisma.issue.count({ where: { status: "IN_PROGRESS"}});
   const closed = await prisma.issue.count({ where: { status: "CLOSED"}});
 
-  return { loading: false ,open, inProgress, closed }
+  return {open, inProgress, closed }
 }
 
 export const dynamic = "force-dynamic";
