@@ -6,7 +6,6 @@ import { Grid, Flex } from "@radix-ui/themes";
 import { Metadata } from "next";
 
 export default async function Home() {
-
   const {open, inProgress, closed} = await fetchData();
   
   return(
