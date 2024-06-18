@@ -32,5 +32,5 @@ export const patchIssueSchema = z.object({
     .max(255)
     .optional()
     .nullable(),
-  status: z.nativeEnum(Status, { message: "Invalid status"})
+  status: z.nativeEnum(Status, { message: "Invalid status"}).optional()
 });

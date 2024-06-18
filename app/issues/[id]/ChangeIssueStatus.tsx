@@ -39,4 +39,6 @@ const ChangeIssueStatus = ({issue}: {issue: Issue}) => {
       );
 }
 
+export const dynamic = "force-dynamic";
+
 export default ChangeIssueStatus
