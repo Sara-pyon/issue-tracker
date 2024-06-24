@@ -53,5 +53,4 @@ const useUser = () => useQuery<User[]>({
   retry: 3,
 });
 
-
 export default AssingneeSelect;
