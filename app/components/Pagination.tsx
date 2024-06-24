@@ -27,12 +27,12 @@ const Pagination = ({itemCount, pageSize, currentPage}: Props) => {
 
   return (
         <Flex gap="2" align="center" justify="center">
-            <Button color='gray' variant='soft' 
+            <Button color='gray' variant='soft' aria-label='firstButton' 
                 disabled={currentPage === 1}
                 onClick={() => changePage(1)}>
                 <DoubleArrowLeftIcon />
             </Button>
-            <Button color='gray' variant='soft'
+            <Button color='gray' variant='soft' aria-label='previousButton'
                 disabled={currentPage === 1}
                 onClick={() => changePage(currentPage - 1)}>
                 <ChevronLeftIcon />
@@ -40,12 +40,12 @@ const Pagination = ({itemCount, pageSize, currentPage}: Props) => {
             <Text>
                 Page { currentPage } of { pageCount }
             </Text>
-            <Button color='gray' variant='soft'
+            <Button color='gray' variant='soft' aria-label='nextButton'
                 disabled={currentPage === pageCount}
                 onClick={() => changePage(currentPage + 1)}>
                 <ChevronRightIcon />
             </Button>
-            <Button color='gray' variant='soft'
+            <Button color='gray' variant='soft' aria-label='lastButton'
                 disabled={currentPage === pageCount}
                 onClick={() => changePage(pageCount)}>
                 <DoubleArrowRightIcon/>
